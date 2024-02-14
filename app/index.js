@@ -1,18 +1,18 @@
-let numbers = []
+var numbers = []
 
 function handleInput(input) {
-  const args = input.trim().split(' ');
-  const command = args[0].toLowerCase();
+  var args = input.trim().split(' ');
+  var command = args[0].toLowerCase();
   
   switch (command) {
     case 'add':
-      const numberToAdd = parseFloat(args[1]);
+      var numberToAdd = parseFloat(args[1]);
       if (!isNaN(numberToAdd)) {
         if (numbers.length >= 1) {
           numbers.push(numberToAdd);
-          let total = 0;
-          for (let index = 0; index < numbers.length; index++) {
-            const num = numbers[index];
+          var total = 0;
+          for (var index = 0; index < numbers.length; index++) {
+            var num = numbers[index];
             total = total + num;
           }
           numbers.push(total)
@@ -28,16 +28,27 @@ function handleInput(input) {
       console.log('Current numbers in the array:', numbers);
       break;
     case 'find':
-      const numberToFind = parseFloat(args[1]);
-      console.log(numberToFind)
-      for (let index = 0; index < numbers.length; index++) {
-        const num = numbers[index];
+      var numberToFind = parseFloat(args[1]);
+      for (var index = 0; index < numbers.length; index++) {
+        var num = numbers[index];
         if (numberToFind === num) {
           return index;
         } else {
           console.log('Not found')
         }
       }
+      break;
+    case 'delete':
+      var itemToRemove = parseFloat(args[1]);
+      var index = numbers.indexOf(itemToRemove);
+      if (index !== -1) {
+          // Remove the item using splice
+          numbers.splice(index, 1);
+          console.log(`Item '${itemToRemove}' removed from the array.`);
+      } else {
+          console.log(`Item '${itemToRemove}' not found in the array.`);
+      }
+
       break;
     case 'exit':
       console.log('Exiting program.');
@@ -49,6 +60,7 @@ function handleInput(input) {
 }
 
 module.exports = handleInput;
+
 module.exports.getList = function() {
   return numbers
 }

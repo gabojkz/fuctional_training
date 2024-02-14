@@ -1,4 +1,4 @@
-const version = './1_base.js';
+const version = './index.js';
 
 const readline = require('readline');
 const handleInput = require(version); // Import the handleInput function

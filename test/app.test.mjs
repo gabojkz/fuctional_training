@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 
-import handleInput from '../app/1_base.js';
+import handleInput from '../app/index.js';
 
 describe('InputHandler', function() {
   beforeEach(function() {
@@ -28,7 +28,14 @@ describe('InputHandler', function() {
     assert.deepEqual(handleInput.getList(), [5]);
     handleInput('add 5');
     assert.deepEqual(handleInput.getList(), [5, 5, 10]);
-
     assert.deepEqual(handleInput('find 10'), 2);
+  })
+
+  it('should delete a number in the array', function () {
+    handleInput('add 5');
+    assert.deepEqual(handleInput.getList(), [5]);
+
+    handleInput('delete 5')
+    assert.deepEqual(handleInput.getList(), []);
   })
 });
