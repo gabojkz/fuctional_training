@@ -1,23 +1,26 @@
-
-const numbers = []
+var numbers = []
 
 function handleInput(input) {
-  const args = input.trim().split(' ');
-  const command = args[0].toLowerCase();
+  var args = input.trim().split(' ');
+  var command = args[0].toLowerCase();
   
   switch (command) {
     case 'add':
-      const numberToAdd = parseFloat(args[1]);
+      var numberToAdd = parseFloat(args[1]);
       if (!isNaN(numberToAdd)) {
+        if (numbers.length >= 1) {
+          numbers.push(numberToAdd);
+          var total = 0;
+          for (var index = 0; index < numbers.length; index++) {
+            var num = numbers[index];
 
-        numbers.push(numberToAdd);
-
-        if (numbers.length > 1) {
-          const clonedArray = [...numbers];
-          const total = clonedArray.reduce((acc, num) => acc + num, 0);
-          numbers.push(total);
+            // BAD: reassign the variable total with a new value
+            total = total + num;
+          }
+          numbers.push(total)
+        } else {
+          numbers.push(numberToAdd);
         }
-
         console.log(`${numberToAdd} added to the array.`);
       } else {
         console.log('Please provide a valid number after "add".');
@@ -27,12 +30,15 @@ function handleInput(input) {
       console.log('Current numbers in the array:', numbers);
       break;
     case 'find':
-      const numberToFind = parseFloat(args[1]);
-      const foundIndex = numbers.findIndex((num) => num === numberToFind);
-      if (foundIndex !== -1) {
-        return foundIndex;
-      } else {
-        console.log('Not found');
+      var numberToFind = parseFloat(args[1]);
+      // BAD: mutating the index variable the numb variable each time it runs
+      for (var index = 0; index < numbers.length; index++) {
+        var num = numbers[index];
+        if (numberToFind === num) {
+          return index;
+        } else {
+          console.log('Not found')
+        }
       }
       break;
     case 'delete':
@@ -62,6 +68,6 @@ module.exports.getList = function() {
 }
 
 module.exports.reset = function() {
-  numbers.splice(0, numbers.length);
+  numbers = []
   return numbers
 }
