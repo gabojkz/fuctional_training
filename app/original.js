@@ -1,26 +1,23 @@
-var numbers = []
+// This is not the orginal but the previous code from the immutability part
+const numbers = []
 
 function handleInput(input) {
-  var args = input.trim().split(' ');
-  var command = args[0].toLowerCase();
+  const args = input.trim().split(' ');
+  const command = args[0].toLowerCase();
   
   switch (command) {
     case 'add':
-      var numberToAdd = parseFloat(args[1]);
+      const numberToAdd = parseFloat(args[1]);
       if (!isNaN(numberToAdd)) {
-        if (numbers.length >= 1) {
-          numbers.push(numberToAdd);
-          var total = 0;
-          for (var index = 0; index < numbers.length; index++) {
-            var num = numbers[index];
 
-            // BAD: reassign the variable total with a new value
-            total = total + num;
-          }
-          numbers.push(total)
-        } else {
-          numbers.push(numberToAdd);
+        numbers.push(numberToAdd);
+
+        if (numbers.length > 1) {
+          const clonedArray = [...numbers];
+          const total = clonedArray.reduce((acc, num) => acc + num, 0);
+          numbers.push(total);
         }
+
         console.log(`${numberToAdd} added to the array.`);
       } else {
         console.log('Please provide a valid number after "add".');
@@ -30,15 +27,12 @@ function handleInput(input) {
       console.log('Current numbers in the array:', numbers);
       break;
     case 'find':
-      var numberToFind = parseFloat(args[1]);
-      // BAD: mutating the index variable the numb variable each time it runs
-      for (var index = 0; index < numbers.length; index++) {
-        var num = numbers[index];
-        if (numberToFind === num) {
-          return index;
-        } else {
-          console.log('Not found')
-        }
+      const numberToFind = parseFloat(args[1]);
+      const foundIndex = numbers.findIndex((num) => num === numberToFind);
+      if (foundIndex !== -1) {
+        return foundIndex;
+      } else {
+        console.log('Not found');
       }
       break;
     case 'delete':
@@ -68,6 +62,6 @@ module.exports.getList = function() {
 }
 
 module.exports.reset = function() {
-  numbers = []
+  numbers.splice(0, numbers.length);
   return numbers
 }
